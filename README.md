@@ -1,5 +1,5 @@
 # Beijing-Trajectories-Project
-Analysis of the GeoLife GPS Trajectories Dataset
+Analysis of the GeoLife GPS Trajectories Dataset (which can be found here: https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/)
 
 Scripts contained in the 'Cleaning' directory are to convert the raw data files into a useable format (e.g. converting lat/long to cartesian metres, splitting up trajectories by their labels).
 
