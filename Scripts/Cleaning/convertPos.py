@@ -1,4 +1,4 @@
-#Adds column names to the .csv Trajectory files
+# Creates new columns with x, y coordinates in metres (converted from the latitude and longitude coordinates)
 
 import csv, os, sys
 import pandas as pd

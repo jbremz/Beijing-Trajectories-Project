@@ -1,3 +1,5 @@
+# Functions for resampling the trajectory at a constant time-step
+
 import csv, os, sys
 from datetime import datetime, timedelta
 import pandas as pd
@@ -83,9 +85,6 @@ def resampleTraj(dataFrame, percentile):
 
 	return df
 
-	# df.to_csv(path)
-
-
 # def masterMeanTime(root):
 
 # 	dirs = [name for name in os.listdir(root) if os.path.isdir(os.path.join(root, name))]
@@ -99,8 +98,3 @@ def resampleTraj(dataFrame, percentile):
 # 	return np.mean(meanTimes)
 
 # thedir = sys.argv[1]
-
-
-
-# root + '/' + direc + '/Trajectory/' + labelState + '/' +traj
-# df.groupby(df.index).count().iloc[0].iloc[0]
