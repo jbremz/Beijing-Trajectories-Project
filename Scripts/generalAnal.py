@@ -10,7 +10,7 @@ from scipy import stats
 from scipy.stats import iqr
 
 # An inventory of all the trajectories with their path, label-state, duration and length
-idf = pd.read_csv('/Users/JBremner/Desktop/Beijing Trajectories/Geolife Trajectories 1.3/Metadata/Inventory.csv')
+idf = pd.read_csv('/Users/JBremner/Documents/Docs/Imperial/Physics /UROP/Beijing Trajectories/Beijing Trajectories Project/Metadata/Inventory.csv')
 
 def length_area(root):
 	'''
@@ -402,6 +402,50 @@ def area_time(root, samples=500):
 	plt.show()
 
 	return l
+
+def corrDim_mode(root, samples=500):
+	'''
+	Creates plot of area covered per unit time vs mode of transport 
+
+	'''
+	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
+	df = df.reset_index(drop=True)	
+	dims = [[], [], [], [], [], [], [], [], [], [], [], []]
+	modes = ['walk', 'run', 'car', 'train','airplane', 'taxi', 'bus', 'subway', 'bike', 'boat', 'motorcycle', 'Unlabelled']
+	bar = progressbar.ProgressBar(max_value=len(df))
+
+	for index, row in df.iterrows():
+		bar.update(index)
+		t = trajectory(root + '/' + row['Path'])
+		t.removeNoise()
+		if t.trashy:
+			continue
+		i = modes.index(t.mode)
+		dims[i].append(t.corrDim())
+
+	dims =  [[dim for dim in mode if not np.isnan(dim)] for mode in dims]
+
+	l = np.array([[np.median(x), iqr(x)] for x in dims])
+
+	N = len(modes)
+	fig, ax = plt.subplots()
+
+	ind = np.arange(N)  # the x locations for the groups
+	width = 0.35       # the width of the bars
+
+	fig, ax = plt.subplots()
+	ax.boxplot(dims)
+	# errors = ax.errorbar(ind, l[:,0], yerr=l[:,1], fmt='x', capsize=2)
+
+	# add some text for labels, title and axes ticks
+	ax.set_ylabel('Correlation dimension')
+	ax.set_xticks(ind)
+	ax.set_xticklabels(modes, rotation='vertical')
+
+	plt.xlabel('Mode of Transport')
+	plt.show()
+
+	return dims
 
 
 
