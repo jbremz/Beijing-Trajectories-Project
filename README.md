@@ -10,3 +10,5 @@ The most important scripts for analysis:
 **trajAnal.py** - contains a class which represents a single trajectory. Has methods for analysis of that trajectory
 
 **generalAnal.py** - contains functions for creating plots of different quantities using the user and trajectory classes
+
+The Jupyter notebook contains a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
