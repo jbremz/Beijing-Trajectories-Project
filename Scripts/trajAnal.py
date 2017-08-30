@@ -5,7 +5,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from nolds import corr_dim, hurst_rs
+from nolds import corr_dim, hurst_rs, dfa
 from resample import resampleTraj
 from sklearn import metrics
 from sklearn.neighbors import NearestNeighbors
@@ -81,7 +81,7 @@ class trajectory:
 		'''
 		locs = []
 
-		points = np.array([self.df['x'], self.df['y']]).T
+		points = np.array([self.df.loc[:,'x'], self.df.loc[:,'y']]).T
 
 		return points
 
@@ -101,6 +101,16 @@ class trajectory:
 		line = LineString(self.points)
 		buff = line.buffer(radius)
 		return buff.area
+
+	def windowArea(self):
+		'''
+		Returns the area of the smallest rectangular window containing the trajectory
+
+		'''
+		bounds = [np.min(self.points[:,0]), np.min(self.points[:,1]), np.max(self.points[:,0]), np.max(self.points[:,1])]
+		area = (bounds[2]-bounds[0])*(bounds[3]-bounds[1])
+
+		return area
 
 	def areaPerUnitL(self):
 		'''
@@ -140,6 +150,17 @@ class trajectory:
 			return hurstExp
 		else:
 			return self.hurstExp
+
+	def DFA(self):
+		'''	
+		Returns the H exponent from detrended fluctuation analysis 
+		Seems like the number of points needs to be over 70 or so for good results
+
+		'''
+		if not self.cleaned:
+			self.removeNoise()
+
+		return dfa(self.points)
 
 	def angles(self):
 		'''
@@ -218,10 +239,11 @@ class trajectory:
 				cly = lingerSpots[:,1]
 				ax.plot(clx, cly,'m^', fillstyle='none')
 
-		if type(self.corr_dim) == bool:
-			self.corrDim()
+		# if type(self.corr_dim) == bool:
+		# 	self.corrDim()
+		# plt.title('Correlation Dimension: ' + str(self.corr_dim))
 
-		plt.title('Correlation Dimension: ' + str(self.corr_dim))
+		plt.title('Mode of Transport: ' + self.mode)
 		ax.set_ylabel('y')
 		ax.set_xlabel('x')
 		ax.set_facecolor('black')
@@ -273,6 +295,9 @@ class trajectory:
 		Returns an array of the suspected linger locations
 
 		'''
+		if not self.cleaned:
+			self.removeNoise()
+
 		if type(self.lingerIndices) == bool:
 			self.lingering()
 
@@ -284,7 +309,7 @@ class trajectory:
 		for lingerIndex in lingers:
 			cdf = self.df[self.df['cluster'] == lingerIndex]
 			points = np.array([np.array(cdf['x']),np.array(cdf['y'])]).T
-			centre = geometric_median(points)
+			centre = np.median(points, axis=0)
 			timeSpent = (cdf['datetime'].iloc[-1] - cdf['datetime'].iloc[0]).seconds
 			lingerTimes.append(timeSpent)
 			lingerLocs.append(centre)

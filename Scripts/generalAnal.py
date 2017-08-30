@@ -275,12 +275,17 @@ def angleS_mode(root, samples=500):
 	width = 0.35       # the width of the bars
 
 	fig, ax = plt.subplots()
-	errors = ax.errorbar(ind, l[:,0], yerr=l[:,1], fmt='x', capsize=2)
+	ax.boxplot(angles)
 
 	# add some text for labels, title and axes ticks
 	ax.set_ylabel('Turning Angle Density (degrees/metre)')
-	ax.set_xticks(ind)
+	ax.set_xticks(ind+1)
 	ax.set_xticklabels(modes)
+
+	# Rotate mode labels to a slant
+	for label in ax.get_xmajorticklabels():
+		label.set_rotation(50)
+		label.set_horizontalalignment("right")
 
 	plt.xlabel('Mode of Transport')
 	plt.show()
@@ -316,12 +321,12 @@ def angleT_mode(root, samples=500):
 	width = 0.35       # the width of the bars
 
 	fig, ax = plt.subplots()
-	errors = ax.errorbar(ind, l[:,0], yerr=l[:,1], fmt='x', capsize=2)
+	ax.boxplot(angles)
 
 	# add some text for labels, title and axes ticks
 	ax.set_ylabel('Turning Angle Density (degrees/second)')
-	ax.set_xticks(ind)
-	ax.set_xticklabels(modes)
+	ax.set_xticks(ind+1)
+	ax.set_xticklabels(modes, rotation='vertical')
 
 	plt.xlabel('Mode of Transport')
 	plt.show()
@@ -357,12 +362,12 @@ def areaT_mode(root, samples=500):
 	width = 0.35       # the width of the bars
 
 	fig, ax = plt.subplots()
-	errors = ax.errorbar(ind, l[:,0], yerr=l[:,1], fmt='x', capsize=2)
+	ax.boxplot(areas)
 
 	# add some text for labels, title and axes ticks
 	ax.set_ylabel('Area covered per unit time (m^2/second)')
-	ax.set_xticks(ind)
-	ax.set_xticklabels(modes)
+	ax.set_xticks(ind+1)
+	ax.set_xticklabels(modes, rotation='vertical')
 
 	plt.xlabel('Mode of Transport')
 	plt.show()
@@ -403,6 +408,41 @@ def area_time(root, samples=500):
 
 	return l
 
+def area_length(root, samples=500):
+	'''
+	Creates plot of hurst exponent vs area covered per unit length by a trajectory
+
+	'''
+	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
+	df = df.reset_index(drop=True)	
+	areas = []
+	lengths = []
+	bar = progressbar.ProgressBar(max_value=len(df))
+
+	for index, row in df.iterrows():
+		bar.update(index)
+		t = trajectory(root + '/' + row['Path'])
+		t.removeNoise()
+		if t.trashy:
+			continue
+		if len(t.points) < 41:
+			continue
+		lengths.append(t.len)
+		areas.append(t.windowArea())
+		# areas.append(t.coveredArea(radius=500))
+
+	l = np.array([lengths, areas])
+
+	slope, intercept, r_value, p_value, std_err = stats.linregress(l[0], l[1])
+
+	plt.scatter(l[0],l[1], s=1)
+	plt.plot(l[0], intercept + slope*l[0], 'r', label='fitted line')
+	plt.xlabel('Path Length (m)')
+	plt.ylabel('Area Covered (m^2)')
+	plt.show()
+
+	return l
+
 def corrDim_mode(root, samples=500):
 	'''
 	Creates plot of area covered per unit time vs mode of transport 
@@ -428,10 +468,7 @@ def corrDim_mode(root, samples=500):
 	l = np.array([[np.median(x), iqr(x)] for x in dims])
 
 	N = len(modes)
-	fig, ax = plt.subplots()
-
 	ind = np.arange(N)  # the x locations for the groups
-	width = 0.35       # the width of the bars
 
 	fig, ax = plt.subplots()
 	ax.boxplot(dims)
@@ -439,7 +476,7 @@ def corrDim_mode(root, samples=500):
 
 	# add some text for labels, title and axes ticks
 	ax.set_ylabel('Correlation dimension')
-	ax.set_xticks(ind)
+	ax.set_xticks(ind+1)
 	ax.set_xticklabels(modes, rotation='vertical')
 
 	plt.xlabel('Mode of Transport')
@@ -447,5 +484,48 @@ def corrDim_mode(root, samples=500):
 
 	return dims
 
+def hurst_mode(root, samples=500):
+	'''
+	Creates plot of turning angle per unit length vs mode of transport 
+
+	'''
+	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
+	df = df.reset_index(drop=True)	
+	hursts = [[], [], [], [], [], [], [], [], [], [], [], []]
+	modes = ['walk', 'run', 'car', 'train','airplane', 'taxi', 'bus', 'subway', 'bike', 'boat', 'motorcycle', 'Unlabelled']
+	bar = progressbar.ProgressBar(max_value=len(df))
+
+	for index, row in df.iterrows():
+		bar.update(index)
+		t = trajectory(root + '/' + row['Path'])
+		t.removeNoise()
+		if t.trashy:
+			continue
+		i = modes.index(t.mode)
+		hursts[i].append(t.hurst())
+
+	l = np.array([[np.median(x), iqr(x)] for x in hursts])
+
+	N = len(modes)
+
+	ind = np.arange(N)  # the x locations for the groups
+
+	fig, ax = plt.subplots()
+	ax.boxplot(hursts)
+
+	# add some text for labels, title and axes ticks
+	ax.set_ylabel('Hurst Exponent')
+	ax.set_xticks(ind+1)
+	ax.set_xticklabels(modes)
+
+	# Rotate mode labels to a slant
+	for label in ax.get_xmajorticklabels():
+		label.set_rotation(50)
+		label.set_horizontalalignment("right")
+
+	plt.xlabel('Mode of Transport')
+	plt.show()
+
+	return l
 
 
