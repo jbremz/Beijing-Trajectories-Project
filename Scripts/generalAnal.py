@@ -376,7 +376,7 @@ def areaT_mode(root, samples=500):
 
 def area_time(root, samples=500):
 	'''
-	Creates plot of hurst exponent vs area covered per unit length by a trajectory
+	Creates plot of area covered vs duration of a trajectory
 
 	'''
 	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
@@ -410,7 +410,7 @@ def area_time(root, samples=500):
 
 def area_length(root, samples=500):
 	'''
-	Creates plot of hurst exponent vs area covered per unit length by a trajectory
+	Creates plot of window area vs length of a trajectory
 
 	'''
 	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
@@ -433,19 +433,31 @@ def area_length(root, samples=500):
 
 	l = np.array([lengths, areas])
 
-	slope, intercept, r_value, p_value, std_err = stats.linregress(l[0], l[1])
+	coeffs, cov = np.polyfit(np.log(lengths), np.log(areas), 1, cov=True)
+	error = np.sqrt(np.diag(cov))
 
-	plt.scatter(l[0],l[1], s=1)
-	plt.plot(l[0], intercept + slope*l[0], 'r', label='fitted line')
-	plt.xlabel('Path Length (m)')
-	plt.ylabel('Area Covered (m^2)')
+	fig = plt.figure()
+	ax = fig.add_subplot(1,1,1)
+
+	ax.scatter(l[0],l[1], s=1)
+
+	ax.set_yscale('log')
+	ax.set_xscale('log')
+
+	x = np.geomspace(np.min(l[0]), np.max(l[0]), 100)
+	ax.plot(x, np.exp(coeffs[1])*x**coeffs[0], 'r', linewidth=0.7)
+
+	ax.set_xlabel('Path Length (m)')
+	ax.set_ylabel('Window Area ($m^2$)')
+	ax.set_title('Exponent: ' + str(coeffs[0]) +'$\pm$'+str(error[0]))
 	plt.show()
 
-	return l
+	return [coeffs[0], error[0]]
+	# return [coeffs, error]
 
 def corrDim_mode(root, samples=500):
 	'''
-	Creates plot of area covered per unit time vs mode of transport 
+	Creates plot of correlation dimension vs mode of transport 
 
 	'''
 	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
@@ -486,7 +498,7 @@ def corrDim_mode(root, samples=500):
 
 def hurst_mode(root, samples=500):
 	'''
-	Creates plot of turning angle per unit length vs mode of transport 
+	Creates plot of hurst exponent vs mode of transport 
 
 	'''
 	df = idf[idf['Length'] > 20][idf['Point Count'] >= 60][idf['Duration'] > 0.5][idf['Duration'] < 60].sample(samples)
