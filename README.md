@@ -5,10 +5,10 @@ Scripts contained in the 'Cleaning' directory are to convert the raw data files 
 
 The most important scripts for analysis:
 
-**userAnal.py** - contains a class which represents a single user. Has methods for analysis of that user's trajectories
+**userAnalysis.py** - contains a class which represents a single user. Has methods for analysis of that user's trajectories
 
-**trajAnal.py** - contains a class which represents a single trajectory. Has methods for analysis of that trajectory
+**trajAnalysis.py** - contains a class which represents a single trajectory. Has methods for analysis of that trajectory
 
-**generalAnal.py** - contains functions for creating plots of different quantities using the user and trajectory classes
+**generalAnalysis.py** - contains functions for creating plots of different quantities using the user and trajectory classes
 
 The Jupyter notebook contains a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
