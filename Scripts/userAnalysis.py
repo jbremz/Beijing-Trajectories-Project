@@ -11,8 +11,8 @@ from sklearn.cluster import DBSCAN
 from sklearn import metrics
 from sklearn.neighbors import NearestNeighbors
 from sklearn.neighbors import radius_neighbors_graph 
-from mathsFuncs import geometric_median
-from chooseUsr import randUsr
+from Scripts.mathsFuncs import geometric_median
+from Scripts.chooseUsr import randUsr
 from nolds import corr_dim
 
 class user:
@@ -260,7 +260,7 @@ class user:
 		ax.grid(True,which='both')
 		ax.hist(Ts,48)
 		ax.set_ylabel('Frequency')
-		plt.show()
+		# plt.show()
 
 	def dates_hist(self):
 		'''
@@ -275,7 +275,7 @@ class user:
 		ax.hist(Ts,50)
 		ax.set_ylabel('Frequency')
 		ax.set_xlabel('Date')
-		plt.show()
+		# plt.show()
 
 	# ~~~~~~~~~~~~~~~~~~~~ HEATMAP ROUTINES ~~~~~~~~~~~~~~~~~~~~
 
@@ -304,7 +304,7 @@ class user:
 			plt.plot(clx, cly,'g^', fillstyle='none')
 			plt.title('Estimated number of clusters: %d' % self.n_clusters_)
 
-		plt.show()
+		# plt.show()
 
 	def plotAllTrajs(self):
 		'''
@@ -339,7 +339,7 @@ class user:
 		ax.set_ylabel('y')
 		ax.set_xlabel('x')
 		ax.set_facecolor('black')
-		plt.show()
+		# plt.show()
 
 	def heatmap(self):
 		'''

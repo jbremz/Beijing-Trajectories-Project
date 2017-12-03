@@ -1,6 +1,6 @@
 # Different analysis functions for analysis of the trajectories
 
-from trajAnal import trajectory
+from Scripts.trajAnalysis import trajectory
 import pandas as pd
 import time
 import progressbar
@@ -288,7 +288,7 @@ def angleS_mode(root, samples=500):
 		label.set_horizontalalignment("right")
 
 	plt.xlabel('Mode of Transport')
-	plt.show()
+	# plt.show()
 
 	return l
 
@@ -404,7 +404,7 @@ def area_time(root, samples=500):
 	plt.plot(l[0], intercept + slope*l[0], 'r', label='fitted line')
 	plt.xlabel('Duration (s)')
 	plt.ylabel('Area Covered (m^2)')
-	plt.show()
+	# plt.show()
 
 	return l
 
@@ -450,7 +450,7 @@ def area_length(root, samples=500):
 	ax.set_xlabel('Path Length (m)')
 	ax.set_ylabel('Window Area ($m^2$)')
 	ax.set_title('Exponent: ' + str(coeffs[0]) +'$\pm$'+str(error[0]))
-	plt.show()
+	# plt.show()
 
 	return [coeffs[0], error[0]]
 	# return [coeffs, error]

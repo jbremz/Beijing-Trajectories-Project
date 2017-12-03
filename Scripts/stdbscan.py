@@ -1,4 +1,4 @@
-# Taken from: https://github.com/eubr-bigsea/py-st-dbscan
+# Modified from: https://github.com/eubr-bigsea/py-st-dbscan
 
 from datetime import timedelta
 import numpy as np

@@ -6,16 +6,16 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from nolds import corr_dim, hurst_rs, dfa
-from resample import resampleTraj
+from Scripts.resample import resampleTraj
 from sklearn import metrics
 from sklearn.neighbors import NearestNeighbors
-from stdbscan import st_dbscan, retrieve_neighbors
-from mathsFuncs import geometric_median
+from Scripts.stdbscan import st_dbscan, retrieve_neighbors
+from Scripts.mathsFuncs import geometric_median
 from shapely.geometry import LineString, box, Point
 import shapely.ops as shlops # to use in finding buffer
 from shapely import strtree
 from math import ceil, isnan
-from chooseTraj import randTraj
+from Scripts.chooseTraj import randTraj
 
 class trajectory:
 	'''
@@ -247,7 +247,7 @@ class trajectory:
 		ax.set_ylabel('y')
 		ax.set_xlabel('x')
 		ax.set_facecolor('black')
-		plt.show()
+		# plt.show()
 
 	# ~~~~~~~~~~~~~~~~~~~~ TEMPORAL ROUTINES ~~~~~~~~~~~~~~~~~~~~
 
