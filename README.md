@@ -11,4 +11,4 @@ The most important scripts for analysis:
 
 **generalAnalysis.py** - contains functions for creating plots of different quantities using the user and trajectory classes
 
-The Jupyter notebook contains a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
+The Jupyter notebooks contain a summary of the findings as well as a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
