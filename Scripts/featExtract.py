@@ -19,9 +19,12 @@ for direc in tqdm(dirs):
 		trajs = os.listdir(thedir + '/' + direc + '/Trajectory/' + labelState + '/')
 		for traj in tqdm(trajs):
 			if traj != '.DS_Store':
+				print(traj)
 				path = thedir + '/' + direc + '/Trajectory/' + labelState + '/' + traj
 				t = trajectory(path)
-				# TODO filter out the trajectories that are too short etc. here (see generalAnalysis for suitable thresholds)
+				if (len(t.points)<20) or (t.time<0.5) or (t.time>60) or (t.len < 20):
+					print('Too short/long')
+					continue
 				t.removeNoise()
 				if t.trashy:
 					print('Utter trash')
