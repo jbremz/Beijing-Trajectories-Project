@@ -39,6 +39,7 @@ def baseline_model():
 	# create model
 	model = Sequential()
 	model.add(Dense(8, input_dim=len(features), activation='relu'))
+	model.add(Dense(8, input_dim=8, activation='relu'))
 	model.add(Dense(len(np.unique(modes, axis=0)), activation='softmax'))
 	# Compile model
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -46,8 +47,8 @@ def baseline_model():
 
 estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=5, verbose=0)
 
-kfold = KFold(n_splits=10, shuffle=True, random_state=seed)
+# kfold = KFold(n_splits=10, shuffle=True, random_state=seed)
 
-results = cross_val_score(estimator, X, Y, cv=kfold)
-print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+# results = cross_val_score(estimator, X, Y, cv=kfold)
+# print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 

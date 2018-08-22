@@ -31,6 +31,7 @@ for direc in tqdm(dirs):
 					continue
 				theTrajectories.append([direc + '/Trajectory/' + labelState + '/' + traj, labelState, t.time, t.len, len(t.points), t.crowLength(), t.pathCrowRatio(), t.coveredArea(), t.windowArea(), t.areaPerUnitL(), t.areaPerUnitT(), t.hurst(), t.angleDensS(), t.angleDensT(), t.corrDim(), t.transMode()])
 
+# TODO make this neater
 paths = [traj[0] for traj in theTrajectories]
 labelStates = [traj[1] for traj in theTrajectories]
 times = [traj[2] for traj in theTrajectories]
