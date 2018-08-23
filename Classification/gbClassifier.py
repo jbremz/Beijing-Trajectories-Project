@@ -8,6 +8,7 @@ import numpy as np
 seed = 20
 
 df = pd.read_csv('/Users/JBremner/Desktop/trajFeatures.csv')
+df = df.loc[df['Label-state'] != 'Unlabelled'] 
 
 for column in df.columns:
 	if 'Unnamed' in column:

@@ -43,6 +43,7 @@ class trajectory:
 
 		self.mode = self.transMode()
 		self.time = self.timeSpent()/60 # in MINUTES
+		self.meanSpeed = self.averageSpeed() 
 		self.maxSpeeds = {'walk':12.4, 'run':12.4, 'car':121, 'train':120,'airplane':313, 'taxi':121, 'bus':121, 'subway':120, 'Unlabelled':313, 'bike':75, 'boat':142, 'motorcycle':112}
 		self.lingerIndices = False
 		self.lingerLocs = False
@@ -199,6 +200,16 @@ class trajectory:
 
 		'''
 		return np.sum(self.angles())/(self.time*60)
+
+	def averageSpeed(self):
+		'''
+		Returns the average speed of the trajectory
+
+		'''
+		if type(self.len) == float:
+			return self.len/(self.time*60)
+		else:
+			return 'NaN'
 
 	# ~~~~~~~~~~~~~~~~~~~~ PLOT ROUTINES ~~~~~~~~~~~~~~~~~~~~	
 

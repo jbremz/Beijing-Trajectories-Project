@@ -29,7 +29,7 @@ for direc in tqdm(dirs):
 				if t.trashy:
 					print('Utter trash')
 					continue
-				theTrajectories.append([direc + '/Trajectory/' + labelState + '/' + traj, labelState, t.time, t.len, len(t.points), t.crowLength(), t.pathCrowRatio(), t.coveredArea(), t.windowArea(), t.areaPerUnitL(), t.areaPerUnitT(), t.hurst(), t.angleDensS(), t.angleDensT(), t.corrDim(), t.transMode()])
+				theTrajectories.append([direc + '/Trajectory/' + labelState + '/' + traj, labelState, t.time, t.len, len(t.points), t.crowLength(), t.pathCrowRatio(), t.coveredArea(), t.windowArea(), t.areaPerUnitL(), t.areaPerUnitT(), t.hurst(), t.angleDensS(), t.angleDensT(), t.corrDim(), t.transMode(), t.meanSpeed])
 
 # TODO make this neater
 paths = [traj[0] for traj in theTrajectories]
@@ -48,6 +48,7 @@ angleDensS = [traj[12] for traj in theTrajectories]
 angleDensT = [traj[13] for traj in theTrajectories]
 corrDim = [traj[14] for traj in theTrajectories]
 transMode = [traj[15] for traj in theTrajectories]
+meanSpeed = [traj[16] for traj in theTrajectories]
 
-df = pd.DataFrame({'Path':paths, 'Label-state':labelStates, 'Duration':times, 'Length':lengths, 'Point Count':pointCount, 'Crow Length':crowLength, 'Path-Crow Ratio':pathCrowRatio, 'Covered Area':coveredArea, 'Window Area':windowArea, 'Area/Length':areaPerUnitL, 'Area/Time':areaPerUnitT, 'Hurst Exponent':hurst, 'Turning-angle/Length':angleDensS, 'Turning-angle/Time':angleDensT, 'Correlation Dimension':corrDim, 'Mode of Transport':transMode})
+df = pd.DataFrame({'Path':paths, 'Label-state':labelStates, 'Duration':times, 'Length':lengths, 'Point Count':pointCount, 'Crow Length':crowLength, 'Path-Crow Ratio':pathCrowRatio, 'Covered Area':coveredArea, 'Window Area':windowArea, 'Area/Length':areaPerUnitL, 'Area/Time':areaPerUnitT, 'Hurst Exponent':hurst, 'Turning-angle/Length':angleDensS, 'Turning-angle/Time':angleDensT, 'Correlation Dimension':corrDim, 'Mean Speed':meanSpeed, 'Mode of Transport':transMode})
 df.to_csv('../Metadata/trajFeatures.csv')
