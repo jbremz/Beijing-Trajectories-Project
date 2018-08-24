@@ -21,12 +21,15 @@ for direc in tqdm(dirs):
 			if traj != '.DS_Store':
 				print(traj)
 				path = thedir + '/' + direc + '/Trajectory/' + labelState + '/' + traj
+				if os.path.getsize(path) > 1e6: # File-size criterion
+					print('Too large')
+					continue
 				t = trajectory(path)
-				if (len(t.points)<20) or (t.time<0.5) or (t.time>60) or (t.len < 20):
+				if (len(t.points)<20) or (t.time<0.5) or (t.time>60) or (t.len < 20): # Trajectory length/duration criterion
 					print('Too short/long')
 					continue
 				t.removeNoise()
-				if t.trashy:
+				if t.trashy: # Trajectory quality criterion
 					print('Utter trash')
 					continue
 				theTrajectories.append([direc + '/Trajectory/' + labelState + '/' + traj, labelState, t.time, t.len, len(t.points), t.crowLength(), t.pathCrowRatio(), t.coveredArea(), t.windowArea(), t.areaPerUnitL(), t.areaPerUnitT(), t.hurst(), t.angleDensS(), t.angleDensT(), t.corrDim(), t.transMode(), t.meanSpeed])
