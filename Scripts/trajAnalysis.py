@@ -181,7 +181,8 @@ class trajectory:
 				continue
 			angles.append(np.arccos(np.dot(v1,v2)/(np.linalg.norm(v1)*np.linalg.norm(v2))))
 
-		angles = [angle for angle in angles if not isnan(angle)]
+		angles = np.array(angles)
+		angles = angles[~np.isnan(angles)]
 
 		angles = abs(np.rad2deg(np.array(angles)))
 
@@ -206,7 +207,7 @@ class trajectory:
 		Returns the average speed of the trajectory
 
 		'''
-		if type(self.len) == float:
+		if type(self.len) == float and self.time>0:
 			return self.len/(self.time*60)
 		else:
 			return 'NaN'

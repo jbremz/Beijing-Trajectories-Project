@@ -25,14 +25,14 @@ for direc in tqdm(dirs):
 					print('Too large')
 					continue
 				t = trajectory(path)
-				if (len(t.points)<20) or (t.time<0.5) or (t.time>60) or (t.len < 20): # Trajectory length/duration criterion
+				if (len(t.points)<20) or (t.time<0.5) or (t.time>90) or (t.len < 20): # Trajectory length/duration criterion
 					print('Too short/long')
 					continue
 				t.removeNoise()
 				if t.trashy: # Trajectory quality criterion
 					print('Utter trash')
 					continue
-				theTrajectories.append([direc + '/Trajectory/' + labelState + '/' + traj, labelState, t.time, t.len, len(t.points), t.crowLength(), t.pathCrowRatio(), t.coveredArea(), t.windowArea(), t.areaPerUnitL(), t.areaPerUnitT(), t.hurst(), t.angleDensS(), t.angleDensT(), t.corrDim(), t.transMode(), t.meanSpeed])
+				theTrajectories.append([direc + '/Trajectory/' + labelState + '/' + traj, labelState, t.time, t.len, len(t.points), t.crowLength(), t.pathCrowRatio(), t.coveredArea(), t.windowArea(), t.areaPerUnitL(), t.areaPerUnitT(), t.hurst(), t.angleDensS(), t.angleDensT(), t.transMode(), t.meanSpeed])
 
 # TODO make this neater
 paths = [traj[0] for traj in theTrajectories]
@@ -49,9 +49,8 @@ areaPerUnitT = [traj[10] for traj in theTrajectories]
 hurst = [traj[11] for traj in theTrajectories]
 angleDensS = [traj[12] for traj in theTrajectories]
 angleDensT = [traj[13] for traj in theTrajectories]
-corrDim = [traj[14] for traj in theTrajectories]
-transMode = [traj[15] for traj in theTrajectories]
-meanSpeed = [traj[16] for traj in theTrajectories]
+transMode = [traj[14] for traj in theTrajectories]
+meanSpeed = [traj[15] for traj in theTrajectories]
 
-df = pd.DataFrame({'Path':paths, 'Label-state':labelStates, 'Duration':times, 'Length':lengths, 'Point Count':pointCount, 'Crow Length':crowLength, 'Path-Crow Ratio':pathCrowRatio, 'Covered Area':coveredArea, 'Window Area':windowArea, 'Area/Length':areaPerUnitL, 'Area/Time':areaPerUnitT, 'Hurst Exponent':hurst, 'Turning-angle/Length':angleDensS, 'Turning-angle/Time':angleDensT, 'Correlation Dimension':corrDim, 'Mean Speed':meanSpeed, 'Mode of Transport':transMode})
+df = pd.DataFrame({'Path':paths, 'Label-state':labelStates, 'Duration':times, 'Length':lengths, 'Point Count':pointCount, 'Crow Length':crowLength, 'Path-Crow Ratio':pathCrowRatio, 'Covered Area':coveredArea, 'Window Area':windowArea, 'Area/Length':areaPerUnitL, 'Area/Time':areaPerUnitT, 'Hurst Exponent':hurst, 'Turning-angle/Length':angleDensS, 'Turning-angle/Time':angleDensT, 'Mean Speed':meanSpeed, 'Mode of Transport':transMode})
 df.to_csv('../Metadata/trajFeatures.csv')
