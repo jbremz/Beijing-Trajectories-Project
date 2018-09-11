@@ -18,12 +18,32 @@ def makeImg(trajectory,size):
 	mat = scaleMat(mat)
 	return Image.fromarray(np.uint8(mat), 'L')
 
-def makeMat(trajectory,size):
+def makeMat(trajectory,range,size):
 	'''
-	Returns (unscaled) 2D histograms of trajectories' points of dimensions (size,size) 
+	Returns (unscaled) 2D histograms of trajectories' points of dimensions (size,size) in a given x and y range
 
 	'''
-	return np.histogram2d(trajectory.points[:,0],trajectory.points[:,1],bins=size)[0]
+	return np.histogram2d(trajectory.points[:,0],trajectory.points[:,1],range=range,bins=size)[0]
+
+def imgCentre(trajectory):
+	'''
+	Takes a trajectory object and returns its middle point coordinates.
+
+	TODO: Return the geometric median instead
+	''' 
+	return trajectory.points[len(trajectory.points)//2]
+
+def windowRange(centre, side):
+	'''
+	Takes the centre and window side length and returns the x and y extents of the window
+	(to be fed into the makeMat function)
+
+	Returns: numpy array [[xmin, xmax],[ymin, ymax]]
+	'''
+	d = side/2
+	xmin, xmax, ymin, ymax = centre[0] - d, centre[0] + d, centre[1] - d, centre[1] + d
+
+	return np.array([[xmin, xmax],[ymin, ymax]])
 
 def batchTraj2Image(df, root, size):
 	'''

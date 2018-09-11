@@ -1,4 +1,4 @@
-from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
@@ -7,9 +7,9 @@ import numpy as np
 
 seed = 20
 
-def rfClf(feature_csv, seed=seed):
+def xgbClf(feature_csv, seed=seed):
 	'''
-	Takes path to csv containing the training data and prints the accuracy of a Random Forest Classifier using 10-fold cross-validation
+	Takes path to csv containing the training data and prints the accuracy of an XGBoost Classifier using 10-fold cross-validation
 
 	'''
 
@@ -27,8 +27,9 @@ def rfClf(feature_csv, seed=seed):
 	# integer encode
 	label_encoder = LabelEncoder()
 	integer_encoded = label_encoder.fit_transform(modes)
+	# label_encoder.inverse_transform()
 
-	feature_drop = ['Mode of Transport','Path','Label-state', 'Point Count','Duration','Path-Crow Ratio','Covered Area','Area/Length','Hurst Exponent','Length']
+	feature_drop = ['Mode of Transport','Path','Label-state', 'Point Count', 'Duration','Length', 'Turning-angle/Time','Hurst Exponent']
 
 	features = list(df.drop(feature_drop, axis=1).columns)
 
@@ -36,9 +37,8 @@ def rfClf(feature_csv, seed=seed):
 	X = np.array(df.drop(feature_drop, axis=1))
 	Y = integer_encoded
 
-	clf = RandomForestClassifier(max_depth=2, random_state=0)
+	clf = XGBClassifier()
 	clf.fit(X, Y)
-	clf.score(X,Y)
 
 	kfold = KFold(n_splits=10, shuffle=True, random_state=seed)
 
