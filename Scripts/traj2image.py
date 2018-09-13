@@ -25,13 +25,13 @@ def makeMat(trajectory,range,size):
 	'''
 	return np.histogram2d(trajectory.points[:,0],trajectory.points[:,1],range=range,bins=size)[0]
 
-def imgCentre(trajectory):
+def imgCentre(traj):
 	'''
 	Takes a trajectory object and returns its middle point coordinates.
 
 	TODO: Return the geometric median instead
 	''' 
-	return trajectory.points[len(trajectory.points)//2]
+	return traj.points[len(traj.points)//2]
 
 def windowRange(centre, side):
 	'''
@@ -45,7 +45,7 @@ def windowRange(centre, side):
 
 	return np.array([[xmin, xmax],[ymin, ymax]])
 
-def batchTraj2Image(df, root, size):
+def batchTraj2Image(df, root, size, side):
 	'''
 	Takes the inventory dataframe (containing N trajectories) and the root path of data
 
@@ -54,12 +54,13 @@ def batchTraj2Image(df, root, size):
 	- An array of Transportation Mode labels of length N
 
 	'''
+	df = df.loc[df['Point Count']>20][df['Label-state']!='Unlabelled'].copy()
 	df = df.reset_index(drop=True)
 	imgs = np.zeros((len(df),size,size))
 	labels = []
 	for i in tqdm(range(len(df))):
 		t = trajectory(root + '/' + df.loc[i]['Path'])
-		imgs[i] = makeMat(t, size)
+		imgs[i] = makeMat(t, windowRange(imgCentre(t),side),size)
 		labels.append(t.mode)
 
 	return imgs, np.array(labels)
