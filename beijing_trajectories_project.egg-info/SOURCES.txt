@@ -1,15 +1,24 @@
 README.md
+Classification/CNNClassifier.py
+Classification/__init__.py
+Classification/gbClassifier.py
+Classification/nnClassifier.py
+Classification/rfClassifier.py
+Classification/svmClassifier.py
+Classification/xgbClassifier.py
 Jupyter/__init__.py
 Scripts/__init__.py
 Scripts/chooseTraj.py
 Scripts/chooseUsr.py
 Scripts/createInventory.py
+Scripts/featExtract.py
 Scripts/generalAnalysis.py
 Scripts/mathsFuncs.py
 Scripts/offcuts.py
 Scripts/resample.py
 Scripts/simpleAnalysis.py
 Scripts/stdbscan.py
+Scripts/traj2image.py
 Scripts/trajAnalysis.py
 Scripts/userAnalysis.py
 Scripts/Cleaning/__init__.py
@@ -20,13 +29,13 @@ Scripts/Cleaning/labelTrajs.py
 Scripts/Cleaning/matchLabels.py
 Scripts/Cleaning/stripHeader.py
 Scripts/Cleaning/tsv2csv.py
-Scripts/External Scripts/__init__.py
-Scripts/External Scripts/py-st-dbscan-master/__init__.py
-Scripts/External Scripts/py-st-dbscan-master/python/__init__.py
-Scripts/External Scripts/py-st-dbscan-master/python/src/__init__.py
-Scripts/External Scripts/py-st-dbscan-master/python/src/stdbscan.py
-Scripts/External Scripts/py-st-dbscan-master/src/__init__.py
-Scripts/External Scripts/py-st-dbscan-master/src/stdbscan.py
+Scripts/ext-scripts/__init__.py
+Scripts/ext-scripts/py-st-dbscan-master/__init__.py
+Scripts/ext-scripts/py-st-dbscan-master/python/__init__.py
+Scripts/ext-scripts/py-st-dbscan-master/python/src/__init__.py
+Scripts/ext-scripts/py-st-dbscan-master/python/src/stdbscan.py
+Scripts/ext-scripts/py-st-dbscan-master/src/__init__.py
+Scripts/ext-scripts/py-st-dbscan-master/src/stdbscan.py
 beijing_trajectories_project.egg-info/PKG-INFO
 beijing_trajectories_project.egg-info/SOURCES.txt
 beijing_trajectories_project.egg-info/dependency_links.txt
