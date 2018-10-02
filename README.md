@@ -1,7 +1,7 @@
 # Beijing-Trajectories-Project
 Mode of transport classification using GeoLife GPS Trajectories Dataset (which can be found here: https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/)
 
-[Classification notebook](/Classification/Classification Notes.ipynb)
+[Classification notebook]("/Classification/Classification%20Notes.ipynb")
 
 Scripts contained in the 'Cleaning' directory are to convert the raw data files into a useable format (e.g. converting lat/long to cartesian metres, splitting up trajectories by their labels).
 
