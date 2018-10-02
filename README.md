@@ -13,4 +13,4 @@ The most important scripts for preprocessing:
 
 [generalAnalysis.py](/Scripts/generalAnalysis.py) - contains functions for creating plots of different quantities using the user and trajectory classes
 
-The Jupyter notebooks in [Scripts](/Scripts) contain a summary of the findings as well as a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
+The Jupyter notebooks in [Jupyter](/Jupyter) contain a summary of the findings as well as a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
