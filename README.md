@@ -5,7 +5,7 @@ Mode of transport classification using GeoLife GPS Trajectories Dataset (which c
 
 Scripts contained in the 'Cleaning' directory are to convert the raw data files into a useable format (e.g. converting lat/long to cartesian metres, splitting up trajectories by their labels).
 
-The most important scripts for analysis:
+The most important scripts for preprocessing:
 
 [userAnalysis.py](/Scripts/userAnalysis.py) - contains a class which represents a single user. Has methods for analysis of that user's trajectories
 
@@ -13,4 +13,4 @@ The most important scripts for analysis:
 
 [generalAnalysis.py](/Scripts/generalAnalysis.py) - contains functions for creating plots of different quantities using the user and trajectory classes
 
-The Jupyter notebooks contain a summary of the findings as well as a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
+The Jupyter notebooks in [Scripts](/Scripts) contain a summary of the findings as well as a few justifications for initial decisions such as deciding the position of the origin and the sampling rate.
